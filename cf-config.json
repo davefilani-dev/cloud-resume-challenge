@@ -1,0 +1,36 @@
+{
+  "CallerReference": "cloud-resume-1",
+  "Comment": "Cloud Resume Distribution",
+  "Enabled": true,
+
+  "Origins": {
+    "Quantity": 1,
+    "Items": [
+      {
+        "Id": "S3WebsiteOrigin",
+        "DomainName": "dave-cloud-demo.s3-website-us-east-1.amazonaws.com",
+        "CustomOriginConfig": {
+          "HTTPPort": 80,
+          "HTTPSPort": 443,
+          "OriginProtocolPolicy": "http-only"
+        }
+      }
+    ]
+  },
+
+  "DefaultCacheBehavior": {
+    "TargetOriginId": "S3WebsiteOrigin",
+    "ViewerProtocolPolicy": "redirect-to-https",
+    "AllowedMethods": {
+      "Quantity": 2,
+      "Items": ["GET", "HEAD"]
+    },
+    "ForwardedValues": {
+      "QueryString": false,
+      "Cookies": {
+        "Forward": "none"
+      }
+    },
+    "MinTTL": 0
+  }
+}
