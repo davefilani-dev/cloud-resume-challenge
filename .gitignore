@@ -1,6 +1,19 @@
-*.zip
 *.pem
 output*.json
+*.txt
+*.zip
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Python
 __pycache__/
+
+# AWS
 .aws/
+
+# Environment
 .env
