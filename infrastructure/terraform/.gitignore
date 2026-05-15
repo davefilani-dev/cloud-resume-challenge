@@ -5,3 +5,5 @@
 *.json
 *.sh
 *.txt
+.terraform.tfvars
+*.tfvars
