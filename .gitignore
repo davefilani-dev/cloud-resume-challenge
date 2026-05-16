@@ -7,9 +7,6 @@ output*.json
 *.tfstate
 *.tfstate.*
 .terraform/
-.terraform.lock.hcl
-*.tfvars
-.terraform.tfvars
 # Python
 __pycache__/
 
