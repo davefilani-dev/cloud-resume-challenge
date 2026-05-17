@@ -1,11 +1,14 @@
-  name: Debug workflow
+  name: FORCE TEST
 
   on:
    push:
+    branches:
+     -  main
 
 
   jobs:
-   debug:
+   test:
      runs-on: ubuntu-latest
      steps:
-      -  run: echo "WORKFLOW DETECTED"
+      - name: Print message 
+        run: echo "WORKFLOW DETECTED"
