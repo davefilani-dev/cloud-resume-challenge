@@ -2,7 +2,5 @@
 *.tfstate
 .terraform.tfstate.backup
 *.tfstate.*
-*.json
-*.sh
 *.txt
-
+*.tfvars
