@@ -5,7 +5,7 @@
 variable "aws_region" {
   description = "AWS deployment region"
   type        = string
-  
+
 
 }
 
@@ -18,7 +18,7 @@ variable "bucket_name" {
 variable "table_name" {
   description = "DynamoDB table name"
   type        = string
-  
+
 
 }
 
@@ -26,6 +26,6 @@ variable "table_name" {
 variable "lambda_function_name" {
   description = "Lambda function name"
   type        = string
-  
+
 
 }
