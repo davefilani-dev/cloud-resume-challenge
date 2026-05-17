@@ -1,14 +1,15 @@
-  name: FORCE TEST
+name: FORCE TEST
 
-  on:
-   push:
+on:
+  push:
     branches:
       - main
 
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-  jobs:
-   test:
-     runs-on: ubuntu-latest
-     steps:
-      - name: Print message 
+    steps:
+      - name: Print message
         run: echo "WORKFLOW DETECTED"
+
