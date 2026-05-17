@@ -1,17 +1,30 @@
-# Cloud Resume Challenge (AWS CLI Implementation)
+
+# Cloud Resume Challenge — AWS + Terraform + GitHub Actions
 
 ## Overview
 
-This project is my implementation of the Cloud Resume Challenge using AWS core cloud and serverless services. The entire infrastructure setup, deployment, and troubleshooting process was performed primarily through the AWS CLI.
+This project is a fully serverless cloud-native resume application built on AWS and provisioned using Terraform Infrastructure as Code (IaC).
 
-The project demonstrates how modern cloud-native applications can be built using a fully serverless architecture while integrating frontend hosting, CDN delivery, API management, serverless compute, and persistent storage.
+The project evolved from an initially manual AWS implementation into a fully automated infrastructure deployment workflow using Terraform, remote state management, and GitHub Actions CI/CD.
+
+It demonstrates practical experience with:
+
+* Infrastructure as Code (Terraform)
+* AWS serverless architecture
+* Remote Terraform state management
+* CI/CD automation
+* GitHub Actions + OIDC federation
+* CloudFront CDN delivery
+* IAM and security configuration
+* Backend API integration
+* Infrastructure troubleshooting and debugging
 
 ---
 
 ## Live Demo
 
-* Website: `https://d143b2vwx2w3e2.cloudfront.net`
-* API Endpoint: `https://tfp8whs54b.execute-api.us-east-1.amazonaws.com/prod/visitor`  
+* Website: `https://d326rj5pqilrxa.cloudfront.net'
+* API Endpoint: `https://2wro77dhed.execute-api.us-east-1.amazonaws.com'
 
 ---
 
@@ -20,11 +33,11 @@ The project demonstrates how modern cloud-native applications can be built using
 ```text
 User Browser
       ↓
-CloudFront (CDN)
+CloudFront CDN
       ↓
 S3 Static Website Hosting
       ↓
-API Gateway (HTTP API)
+API Gateway
       ↓
 AWS Lambda
       ↓
@@ -38,108 +51,168 @@ DynamoDB
 | Service           | Purpose                            |
 | ----------------- | ---------------------------------- |
 | Amazon S3         | Static website hosting             |
-| Amazon CloudFront | CDN and HTTPS delivery             |
-| API Gateway       | HTTP API routing                   |
-| AWS Lambda        | Serverless backend logic           |
+| Amazon CloudFront | Global CDN and HTTPS delivery      |
+| API Gateway       | REST API exposure                  |
+| AWS Lambda        | Serverless compute                 |
 | DynamoDB          | Persistent visitor counter storage |
-| IAM               | Permissions and role management    |
+| IAM               | Identity and access management     |
+| GitHub Actions    | CI/CD automation                   |
+| Terraform         | Infrastructure as Code             |
 
 ---
 
-## Features
+## Infrastructure as Code (Terraform)
 
-* Static resume website hosted on Amazon S3
-* Global content delivery using CloudFront
-* Dynamic visitor counter using Lambda + DynamoDB
-* API Gateway integration for frontend/backend communication
-* CLI-driven deployment workflow
-* Cache invalidation/versioning strategy for frontend updates
+The infrastructure is fully provisioned using Terraform with a modularized configuration structure.
 
----
-
-## Project Structure
+### Terraform Components
 
 ```text
-cloud-resume-challenge/
-│
-├── index.html
-├── script.js
-├── error.html
-├── lambda_function.py
-├── policy.json
-├── cf-config.json
-├── README.md
-└── .gitignore
+terraform/
+├── provider.tf
+├── variables.tf
+├── outputs.tf
+├── s3.tf
+├── cloudfront.tf
+├── lambda.tf
+├── dynamodb.tf
+├── apigateway.tf
+├── iam.tf
+├── terraform.tfvars
+└── backend.tf
+```
+
+### Key Terraform Features
+
+* Remote backend state management using S3
+* State locking using DynamoDB
+* Modular infrastructure organization
+* Variable-driven configuration
+* Infrastructure reproducibility
+* CI/CD-integrated validation workflow
+
+---
+
+## CI/CD Pipeline
+
+GitHub Actions is used to automate Terraform validation and deployment workflows.
+
+### Workflow Features
+
+* Terraform formatting checks
+* Terraform validation
+* Terraform execution planning
+* GitHub-hosted runners
+* AWS authentication using OIDC federation
+* Automated Lambda packaging
+
+### GitHub Actions Flow
+
+```text
+Git Push
+   ↓
+GitHub Actions Runner
+   ↓
+Terraform Init
+   ↓
+Terraform Validate
+   ↓
+Terraform Plan
 ```
 
 ---
 
-## Deployment Workflow
+## Security Improvements
 
-### Frontend Deployment
+The project implements several infrastructure security best practices:
 
-```bash
-aws s3 cp index.html s3://dave-cloud-demo
-aws s3 cp script.js s3://dave-cloud-demo
-```
-
-### Cache Refresh
-
-```bash
-aws cloudfront create-invalidation \
-  --distribution-id E3FDSVAGXIYBCH \
-  --paths "/*"
-```
-
-### Lambda Packaging
-
-```bash
-zip function.zip lambda_function.py
-```
-
----
-
-## Key Engineering Concepts Demonstrated
-
-* Serverless architecture
-* CDN caching behavior
-* IAM permission management
-* API routing and integration
-* DynamoDB atomic updates
-* Static website hosting
-* CLI-based cloud operations
+* IAM role-based authentication
+* OIDC federation between GitHub Actions and AWS
+* Remote Terraform state isolation
+* DynamoDB state locking
+* Public access control through CloudFront
+* Terraform backend separation strategy
 
 ---
 
 ## Challenges Encountered
 
-### IAM Permission Conflicts
+### Terraform Backend Bootstrap Problem
 
-Encountered explicit deny policy issues while configuring AWS permissions and resolved them through root account recovery and IAM policy correction.
+Resolved remote backend initialization failures caused by missing S3 backend infrastructure.
 
-### API Gateway Route Misconfiguration
+### GitHub Actions Workflow Discovery
 
-Resolved routing failures caused by missing API integration bindings between API Gateway and Lambda.
+Debugged workflow execution issues caused by incorrect `.github/workflows` directory placement.
 
-### CloudFront Caching Issues
+### Terraform State Management
 
-After updating frontend files in the S3 bucket, CloudFront continued serving stale cached versions of the website. Resolved the issue by performing CloudFront cache invalidation to force retrieval of the latest frontend assets from the origin bucket.
+Resolved backend state loading and region alignment issues during CI/CD execution.
 
-### S3 Static Website Errors
+### Lambda Artifact Packaging
 
-Encountered static website hosting errors caused by missing object keys and incomplete website configuration settings. Resolved the issue by correctly configuring the S3 website endpoint and uploading the required frontend files (`index.html` and `error.html`).
+Implemented automated Lambda packaging workflow for CI/CD compatibility.
+
+### CloudFront Migration
+
+Migrated from manually configured CloudFront resources to Terraform-managed infrastructure.
+
+### IAM and OIDC Configuration
+
+Configured GitHub Actions authentication into AWS without long-lived access keys.
+
+---
+
+## Key Engineering Concepts Demonstrated
+
+* Infrastructure as Code (IaC)
+* CI/CD automation
+* Remote state architecture
+* Serverless architecture
+* GitHub Actions automation
+* OIDC federation
+* Terraform backend management
+* AWS IAM permissions
+* CDN behavior and caching
+* Cloud-native deployment workflows
+
+---
+
+## Future Improvements
+
+* Multi-environment Terraform workspaces
+* Terraform reusable modules
+* Automated Terraform apply workflow
+* CloudWatch monitoring and alerting
+* Route 53 custom domain integration
+* HTTPS certificate management with ACM
+* Security scanning integration (tfsec / Checkov)
+* Dockerized deployment workflows
 
 ---
 
 ## Lessons Learned
 
-This project provided hands-on experience with integrating multiple AWS services into a functioning serverless architecture. It also strengthened my understanding of cloud troubleshooting, IAM permissions, deployment workflows, and distributed system behavior.
+This project provided hands-on experience with real-world infrastructure automation challenges beyond basic cloud deployment.
+
+Key lessons included:
+
+* Terraform backend architecture design
+* CI/CD orchestration troubleshooting
+* GitHub Actions workflow behavior
+* Infrastructure state management
+* OIDC-based cloud authentication
+* AWS IAM debugging
+* Infrastructure reproducibility principles
 
 ---
 
 ## Author
 
 GitHub: `https://github.com/davefilani-dev`
+
+
+
 
 
 
