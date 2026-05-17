@@ -1,0 +1,11 @@
+  name: Debug workflow
+
+  on:
+   push:
+
+
+  jobs:
+   debug:
+     runs-on: ubuntu-latest
+     steps:
+      -  run: echo "WORKFLOW DETECTED"
