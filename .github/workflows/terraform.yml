@@ -30,11 +30,11 @@ jobs:
       - name: Verify AWS Identity
         run: aws sts get-caller-identity
 
-      - name: Package Lambda function
-        run: zip function.zip lambda_function.py
-
       - name: Clean old build artifacts
         run:  rm -f function.zip
+
+      - name: Package Lambda function
+        run: zip function.zip lambda_function.py
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
