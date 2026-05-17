@@ -23,7 +23,7 @@
     -  name: Configure AWS Credentials
        uses: aws-actions/configure-aws-credentials@v4
        with:
-         role-to-assume: arn:aws:iam::178845344404:role/GitHubActionsTerra>
+         role-to-assume: arn:aws:iam::178845344404:role/GitHubActionsTerraformRole
          aws-region: us-east-1
 
 
